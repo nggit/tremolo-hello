@@ -23,5 +23,9 @@ if __name__ == '__main__':
     load_dotenv()
     asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
-    app.run(os.getenv('HOST', '0.0.0.0'), int(os.getenv('PORT', 3030)),
-            worker_num=4, download_rate=128 * 1048576, upload_rate=128 * 1048576)
+    try:
+        app.run(host=os.getenv('HOST', '0.0.0.0'), port=int(os.getenv('PORT', 3030)),
+                worker_num=4, download_rate=128 * 1048576, upload_rate=128 * 1048576)
+    except ValueError:
+        app.run(host='0.0.0.0', port=3030,
+                worker_num=4, download_rate=128 * 1048576, upload_rate=128 * 1048576)
